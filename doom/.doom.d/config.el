@@ -6,8 +6,6 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -22,19 +20,99 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+;; ===========================
+;; Functions
+;; ===========================
+
+;; Change to the home directory in dired.
+(defun dired-home ()
+  (interactive)
+  (dired "~/")
+)
+
+;; Thank you Alex for another snippet of your config
+;; It makes enum values indent in the declaration statement
+(defun my/c-code-hook ()
+  (setq c-offsets-alist '((brace-list-intro . +)))
+)
+
+
+(defun insert-tab-char ()
+  (interactive)
+  (insert "    ")
+)
+
+;; ===========================
+;; Setq
+;; ===========================
+
+(setq user-full-name "Barrolskii")
+(setq org-directory "~/Dev/Org")
+(setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+
+(setq org-startup-folded t) ;; Set each list item in org mode to be folded by default
+
+(setq
+ company-idle-delay 0
+ company-minimum-prefix-length 1
+ )
+
+(setq +doom-quit-messages '(
+                            "You rebel scum!"
+                            "For a brick he flew pretty good."
+                            "Oh I know what the ladies like."
+                            "Wow that was really cool."
+                            "If it took more than one shot, you weren't using a Jakobs."
+))
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4) ; Set default indentation
+
+(setq-default electric-indent-mode -1)
+
+;; ===========================
+;; Hooks
+;; ===========================
+
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'c-mode-common-hook 'my/c-code-hook)
+
+
+;; ===========================
+;; Key definitions
+;; ===========================
+
+
+
+;; ===========================
+;; Key mappings
+;; ===========================
+
+(map!
+ :leader
+ :desc "Open dashboard" "d d" #'+doom-dashboard/open)
+
+;;(map!
+;; :after dired
+;; :map dired-mode-map
+;; :leader
+;; :n "~" #'dired-home)
+
+(map!
+ :after dired
+ :map dired-mode-map
+ :leader
+ :n "c" 'find-file)
+
+
+(global-set-key (kbd "TAB") 'insert-tab-char)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
