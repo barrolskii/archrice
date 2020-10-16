@@ -6,7 +6,11 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+
+source $HOME/.config/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+
+PS1='[\u@\h \w]$(__git_ps1 " (%s)")\$ '
 
 
 # Quick source bashrc if adding aliases on the fly
