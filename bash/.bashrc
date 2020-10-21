@@ -23,6 +23,7 @@ alias stow="stow --target=$HOME"
 alias q="exit"
 
 alias cdwm="cd ~/Dev/C/dwm"
+alias dev="cd ~/Dev"
 
 PATH=$HOME/Dev/Scripts:$PATH
 export TEMPLATES="$HOME/Dev/Templates"
