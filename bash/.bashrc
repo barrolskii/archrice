@@ -24,6 +24,7 @@ alias q="exit"
 
 alias cdwm="cd ~/Dev/C/dwm"
 alias dev="cd ~/Dev"
+alias c="cd ~/Dev/C"
 
 PATH=$HOME/Dev/Scripts:$PATH
 export TEMPLATES="$HOME/Dev/Templates"
