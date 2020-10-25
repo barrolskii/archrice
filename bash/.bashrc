@@ -42,5 +42,3 @@ cmkdir()
 	cd $1
 }
 
-neofetch
-
