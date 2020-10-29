@@ -16,6 +16,7 @@ PS1='[\u@\h \w]$(__git_ps1 " (%s)")\$ '
 # Quick source bashrc if adding aliases on the fly
 alias sbr="source ~/.bashrc"
 
+alias gp="git push"
 alias cls="clear"
 alias stow="stow --target=$HOME"
 
