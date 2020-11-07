@@ -48,7 +48,11 @@
 ;; ===========================
 
 (setq user-full-name "Barrolskii")
-(setq org-directory "~/Dev/Org")
+(after! org
+  (setq org-directory "~/Dev/Org")
+  (setq org-agenda-files '("~/Dev/Org/Agenda.org"))
+  (setq org-agenda-span 14)
+)
 (setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
