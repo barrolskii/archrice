@@ -25,6 +25,7 @@ alias q="exit"
 
 alias cdwm="cd ~/Dev/C/dwm"
 alias dev="cd ~/Dev"
+alias org="cd ~/Dev/Org"
 alias c="cd ~/Dev/C"
 
 PATH=$HOME/Dev/Scripts:$PATH
