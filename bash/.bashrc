@@ -27,6 +27,7 @@ alias cdwm="cd ~/Dev/C/dwm"
 alias dev="cd ~/Dev"
 alias org="cd ~/Dev/Org"
 alias c="cd ~/Dev/C"
+alias web="cd ~/Dev/Web/"
 
 PATH=$HOME/Dev/Scripts:$PATH
 export TEMPLATES="$HOME/Dev/Templates"
