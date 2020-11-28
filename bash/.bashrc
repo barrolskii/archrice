@@ -7,6 +7,7 @@
 
 alias ls='ls --color=auto'
 
+source $HOME/.bash_shortcuts
 source $HOME/.config/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
 
@@ -22,12 +23,6 @@ alias stow="stow --target=$HOME"
 
 # Quick quit the terminal because I'm too lazy to type the entire thing
 alias q="exit"
-
-alias cdwm="cd ~/Dev/C/dwm"
-alias dev="cd ~/Dev"
-alias org="cd ~/Dev/Org"
-alias c="cd ~/Dev/C"
-alias web="cd ~/Dev/Web/"
 
 PATH=$HOME/Dev/Scripts:$PATH
 export TEMPLATES="$HOME/Dev/Templates"
