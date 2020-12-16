@@ -18,6 +18,10 @@ PS1='[\u@\h \w]$(__git_ps1 " (%s)")\$ '
 alias sbr="source ~/.bashrc"
 
 alias gp="git push"
+alias gs="git status"
+alias gd="git diff"
+alias gc="git commit"
+
 alias cls="clear"
 alias stow="stow --target=$HOME"
 
