@@ -246,7 +246,6 @@ augroup filetype_markdown
    	autocmd FileType markdown :onoremap ih :<c-u>execute "normal! ?^[==,--]\\+$\r:nohlsearch\rkvg_"<cr>
 	autocmd FileType markdown :onoremap ah :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rg_vk0"<cr>
 
-	"TODO: Add email eversion of the commands above
 	iabbrev ` ```<cr><cr>```<up><up>
 augroup END
 
