@@ -95,16 +95,6 @@ let g:ycm_semantic_triggers = {
 
 " Basic abbrev and remap settings {{{
 
-" Move current line down one
-noremap <leader>- ddp
-
-" Move current line up one
-noremap <leader>_ ddkP
-
-" Delete two lines but break the undo sequence
-" to allow each line to be undone individually
-nnoremap <leader>d ddi<c-g>u<esc>dd
-
 " Make word uppercase
 noremap <leader>u viwU
 
@@ -112,8 +102,8 @@ noremap <leader>u viwU
 noremap <leader>l viwu
 
 " Shortcut to open .vimrc and to refresh changes
-nnoremap <leader>ev :vsp ~/Dev/Mint-Rice/vim/.vimrc<cr>
-nnoremap <leader>sv :source ~/Dev/Mint-Rice/vim/.vimrc<cr>
+nnoremap <leader>ev :vsp ~/.vimrc<cr>
+nnoremap <leader>sv :source ~/.vimrc<cr>
 
 " Wrap current word in single quotes or double quotes
 nnoremap <leader>" ea"<esc>bi"<esc>lel
@@ -161,8 +151,8 @@ augroup filetype_c
 
 	let g:ycm_global_ycm_extra_conf = '~/.config/nvim/plug-config/.ycm_c_conf.py'
 
-	autocmd BufNewFile main.c 0r ~/Dev/Mint-Rice/vim/templates/template.c
-	autocmd BufNewFile main.cpp 0r ~/Dev/Mint-Rice/vim/templates/template.cpp
+	autocmd BufNewFile main.c 0r $TEMPLATES/template.c
+	autocmd BufNewFile main.cpp 0r $TEMPLATES/template.cpp
 	autocmd BufNewFile *.c nnoremap <leader>w :match Error /\s\+$/<cr>
 
 	autocmd FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
@@ -230,7 +220,7 @@ augroup END
 
 augroup filetype_bash
 	autocmd!
-	autocmd BufNewFile *.sh 0r ~/Dev/Mint-Rice/vim/templates/template.sh
+	autocmd BufNewFile *.sh 0r $TEMPLATES/template.sh
 	autocmd BufNewFile *.sh exe "normal jo"
 
 	autocmd FileType sh nnoremap <localleader># mq0i#<esc>`q
@@ -256,7 +246,7 @@ augroup END
 
 augroup filetype_html
 	autocmd!
-	autocmd BufNewFile *.html 0r ~/Dev/Mint-Rice/vim/templates/template.html
+	autocmd BufNewFile *.html 0r $TEMPLATES/template.html
 	autocmd FileType html nnoremap <buffer> <leader>> vit<esc>i
 	autocmd FileType html nnoremap <buffer> <leader><leader> :call FindPlaceholder()<cr>i
 
