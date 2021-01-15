@@ -242,6 +242,15 @@ augroup END
 " }}}
 
 
+" {{{
+
+augroup filetype_make
+	autocmd!
+	autocmd BufNewFile makefile 0r $TEMPLATES/makefile.txt
+augroup END
+
+"  }}}
+
 " html file settings {{{
 
 augroup filetype_html
