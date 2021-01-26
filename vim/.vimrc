@@ -176,7 +176,7 @@ augroup END
 
 augroup filetype_c_header
 	autocmd!
-	autocmd BufNewFile *.h 0r $VIM/vim80/templates/template.h
+	autocmd BufNewFile *.h 0r $TEMPLATES/template.h
 	autocmd BufNewFile *.h exe "1," . 7 . "g/#ifndef/s//#ifndef " .toupper(join([fnamemodify(expand("%"), ':t:r'), '_H'], ''))
 	autocmd BufNewFile *.h exe "1," . 7 . "g/#define/s//#define " .toupper(join([fnamemodify(expand("%"), ':t:r'), '_H'], ''))
 	autocmd BufNewFile *.h exe "1," . 7 . "g,#endif,s,,#endif \\//" .toupper(join([fnamemodify(expand("%"), ':t:r'), '_H'], ''))
@@ -250,6 +250,7 @@ augroup filetype_make
 augroup END
 
 "  }}}
+
 
 " html file settings {{{
 
