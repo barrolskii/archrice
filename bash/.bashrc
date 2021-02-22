@@ -35,6 +35,7 @@ PATH=$HOME/Dev/Scripts:$PATH
 export TEMPLATES="$HOME/Dev/Templates"
 export PATH="$HOME/neovim/bin:$PATH"
 export PATH="~/.emacs.d/bin:$PATH"
+export PATH="$PATH:/usr/local/go/bin"
 
 # Set bash to edit in vi mode
 set -o vi
