@@ -271,6 +271,10 @@ augroup filetype_html
 	autocmd FileType html nnoremap <buffer> <leader>li a<li></li><esc>4hi
 	autocmd FileType html nnoremap <buffer> <leader>a a<a></a><esc>3hi
 
+	autocmd FileType html nnoremap <buffer> <leader>tr a<tr><return><return></tr><esc><up>i
+	autocmd FileType html nnoremap <buffer> <leader>td a<td></td><esc>3hi
+	autocmd FileType html nnoremap <buffer> <leader>th a<th></th><esc>4hi
+
 	autocmd FileType html nnoremap <buffer> <leader>pr a<pre><cr><code><cr><cr><cr><cr></code><cr></pre><esc>3ki
 
 	autocmd FileType html setlocal spell spelllang=en_gb
