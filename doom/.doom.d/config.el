@@ -25,6 +25,7 @@
 ;; Functions
 ;; ===========================
 
+
 ;; Change to the home directory in dired.
 (defun dired-home ()
   (interactive)
@@ -67,6 +68,13 @@
  company-minimum-prefix-length 1
  )
 
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4) ; Set default indentation
+
+(setq-default electric-indent-mode -1)
+
 (setq +doom-quit-messages '(
                             "You rebel scum!"
                             "For a brick he flew pretty good."
@@ -75,11 +83,6 @@
                             "If it took more than one shot, you weren't using a Jakobs."
 ))
 
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq-default c-basic-offset 4) ; Set default indentation
-
-(setq-default electric-indent-mode -1)
 
 ;; ===========================
 ;; Hooks
@@ -103,11 +106,23 @@
  :leader
  :desc "Open dashboard" "d d" #'+doom-dashboard/open)
 
-;;(map!
-;; :after dired
-;; :map dired-mode-map
-;; :leader
-;; :n "~" #'dired-home)
+(map!
+ :desc "Wrap word/s in ("
+ :leader
+ :n "(" #'sp-wrap-round
+ )
+
+(map!
+ :desc "Wrap word/s in ["
+ :leader
+ :n "[" #'sp-wrap-square
+ )
+
+(map!
+ :desc "Wrap word/s in {"
+ :leader
+ :n "{" #'sp-wrap-curly
+ )
 
 (map!
  :after dired
@@ -116,7 +131,41 @@
  :n "c" 'find-file)
 
 
+(insert "hello world")
+
 (global-set-key (kbd "TAB") 'insert-tab-char)
+
+
+;; ===========================
+;; The bad corner
+;; ===========================
+
+;; This is called "The bad corner" because this is the Windows only settings
+;; I know my config is sectioned out but I want Windows settings in their own
+;; area. Windows bad
+
+(if (eq system-type 'windows-nt)
+
+    ;; Set the window to maximised because it is not by default on Windows
+    ;; We don't have this problem on Linux because tiling window
+    ;; managers set the scale of the window automatically
+    (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+
+    ;; If we're on Windows set the default compile command to run a batch file
+    ;; I refuse to suffer with visual studio so I'll do everything myself
+    ;; Yes I am aware that batch is gross
+    ;; TODO: Update this to nmake
+    (setq compile-command "./compile.bat")
+
+    ;; Most of this doesn't seem to do anything??
+    ;; Bash in Windows seems to work so I might not need to set these
+    ;; The behaviour seems to work the same regardless if I set them or not
+    (setq explicit-shell-file-name "E:/Program Files/Git/bin/bash.exe")
+    (setq shell-file-name "bash")
+    (setq explicit-bash.exe-args '("--noediting" "--login" "-i" "-m"))
+    (setq "SHELL" shell-file-name)
+)
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
