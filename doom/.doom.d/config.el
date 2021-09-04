@@ -78,7 +78,6 @@
  company-minimum-prefix-length 1
  )
 
-
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4) ; Set default indentation
@@ -93,6 +92,7 @@
                             "If it took more than one shot, you weren't using a Jakobs."
 ))
 
+(setq yas-snippet-dirs '("~/Dev/Templates/Snippets"))
 
 ;; ===========================
 ;; Hooks
@@ -103,10 +103,12 @@
 
 
 ;; ===========================
-;; Key definitions
+;; Variable settings
 ;; ===========================
 
 
+(setq yas-indent-line 'fixed)
+(yas-global-mode t)
 
 ;; ===========================
 ;; Key mappings
