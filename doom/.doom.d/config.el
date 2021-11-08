@@ -54,6 +54,8 @@
   (insert "    ")
 )
 
+(defun native-comp-available-p () nil)
+
 ;; ===========================
 ;; Setq
 ;; ===========================
@@ -93,6 +95,75 @@
 ))
 
 (setq yas-snippet-dirs '("~/Dev/Templates/Snippets"))
+
+;; Org export html stuff
+
+;(("en" "<p class=\"author\">Author: %a (%e)</p>\n<p class=\"date\">Date: %d</p>\n<p class=\"creator\">%c</p>\n<p class=\"validation\">%v</p>"))
+(setq org-html-content-class "content container"
+      org-html-metadata-timestamp-format "%Y-%m-%d"
+      org-html--pre/postamble-class nil
+      org-html-divs '((preamble "div" "")
+                      (content "div")
+                      (postamble "div" "postamble"))
+      ; This is ugly but it's midnight, this works, and I'll probably make it neater at some point
+      ; At some point...
+      org-html-preamble-format '(("en" "<div class=\"sidebar\">
+<div class=\"sidebar-about\">
+  <span class=\"site__title\">
+        <a href=\"https://barrolskii.github.io/\">Ashley Barrell</a>
+  </span>
+  <div class=\"author-image\">
+        <!--<img src=\"https://htr3n.github.io//img/avatar.png\" alt=\"Author Image\" class=\"img--circle img--headshot element--center\">-->
+  </div>
+        <p class=\"site__description\"></p>
+</div>
+
+    <div class=\"collapsible-menu\">
+
+        <input type=\"checkbox\" id=\"menuToggle\">
+        <label for=\"menuToggle\">Ashley Barrell</label>
+        <div class=\"menu-content\">
+
+            <ul class=\"sidebar-nav\">
+            <li>
+                <a href=\"/posts/\">
+                <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=\"/portfolio/\">
+                <span>Portfolio</span>
+                </a>
+            </li>
+            <li>
+                <a href=\"/about/\">
+                <span>About</span>
+                </a>
+            </li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>"))
+      )
+
+;(setq org-html-htmlize-output-type 'inline-css
+;      org-html-head-include-default-style t
+;      )
+
+(setq org-publish-project-alist
+      '(("barrolskii.github.io"
+         ;:base-directory "~/Dev/Web/barrolskii.github.io/org"
+         ;:publishing-directory "~/Dev/Web/barrolskii.github.io"
+         :base-directory "~/Dev/Web/test"
+         :publishing-directory "~/Dev/Web/test"
+         :base-extension "org"
+         :recursive t
+         :with-title nil
+         :publishing-function org-html-publish-to-html
+         )
+        ))
 
 ;; ===========================
 ;; Hooks
@@ -166,28 +237,28 @@
 ;; I know my config is sectioned out but I want Windows settings in their own
 ;; area. Windows bad
 
-(if (eq system-type 'windows-nt)
-
-    (progn
-        ;; Set the window to maximised because it is not by default on Windows
-        ;; We don't have this problem on Linux because tiling window
-        ;; managers set the scale of the window automatically
-        (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
-
-        ;; If we're on Windows set the default compile command to run a batch file
-        ;; I refuse to suffer with visual studio so I'll do everything myself
-        ;; Yes I am aware that batch is gross
-        (setq compile-command "nmake")
-
-        ;; Most of this doesn't seem to do anything??
-        ;; Bash in Windows seems to work so I might not need to set these
-        ;; The behaviour seems to work the same regardless if I set them or not
-        (setq explicit-shell-file-name "E:/Program Files/Git/bin/bash.exe")
-        (setq shell-file-name "bash")
-        (setq explicit-bash.exe-args '("--noediting" "--login" "-i" "-m"))
-        (setq shell-file-name "SHELL")
-    )
-)
+;;(if (eq system-type 'windows-nt)
+;;
+;;    (progn
+;;        ;; Set the window to maximised because it is not by default on Windows
+;;        ;; We don't have this problem on Linux because tiling window
+;;        ;; managers set the scale of the window automatically
+;;        (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+;;
+;;        ;; If we're on Windows set the default compile command to run a batch file
+;;        ;; I refuse to suffer with visual studio so I'll do everything myself
+;;        ;; Yes I am aware that batch is gross
+;;        (setq compile-command "nmake")
+;;
+;;        ;; Most of this doesn't seem to do anything??
+;;        ;; Bash in Windows seems to work so I might not need to set these
+;;        ;; The behaviour seems to work the same regardless if I set them or not
+;;        (setq explicit-shell-file-name "E:/Program Files/Git/bin/bash.exe")
+;;        (setq shell-file-name "bash")
+;;        (setq explicit-bash.exe-args '("--noediting" "--login" "-i" "-m"))
+;;        (setq shell-file-name "SHELL")
+;;    )
+;;)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
