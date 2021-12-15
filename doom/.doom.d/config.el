@@ -56,6 +56,12 @@
 
 (defun native-comp-available-p () nil)
 
+(defun create-blog-post ()
+    "Create a new blog post"
+    (interactive)
+    (let ((name (read-string "Filename: ")))
+    (expand-file-name (format "%s.org" name) "~/Dev/Web/barrolskii.github.io/org/blogs/")))
+
 ;; ===========================
 ;; Setq
 ;; ===========================
@@ -79,6 +85,11 @@
  company-idle-delay 0
  company-minimum-prefix-length 1
  )
+
+(setq org-capture-templates
+      '(("p" "Post" plain
+         (file create-blog-post)
+         (file "~/Dev/Templates/blogtemplate.org"))))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
