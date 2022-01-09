@@ -103,13 +103,15 @@
                             "Oh I know what the ladies like."
                             "Wow that was really cool."
                             "If it took more than one shot, you weren't using a Jakobs."
+                            "This is where the fun begins."
+                            "Now THIS is pod racing!"
+                            "Todays Emacs sessions was sponsored by RAID: Shadow Legends"
 ))
 
 (setq yas-snippet-dirs '("~/Dev/Templates/Snippets"))
 
 ;; Org export html stuff
 
-;(("en" "<p class=\"author\">Author: %a (%e)</p>\n<p class=\"date\">Date: %d</p>\n<p class=\"creator\">%c</p>\n<p class=\"validation\">%v</p>"))
 (setq org-html-content-class "content container"
       org-html-metadata-timestamp-format "%Y-%m-%d"
       org-html--pre/postamble-class nil
