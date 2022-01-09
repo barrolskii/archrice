@@ -28,6 +28,8 @@ alias stow="stow --target=$HOME"
 # I use the tui interface so much might as well make it default
 alias gdb="gdb -tui"
 
+alias valgrind="valgrind --leak-check=full -s"
+
 # Quick quit the terminal because I'm too lazy to type the entire thing
 alias q="exit"
 
