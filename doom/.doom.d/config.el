@@ -25,13 +25,6 @@
 ;; Functions
 ;; ===========================
 
-
-;; Change to the home directory in dired.
-(defun dired-home ()
-  (interactive)
-  (dired "~/")
-)
-
 ;; Thank you Alex for another snippet of your config
 ;; It makes enum values indent in the declaration statement
 (defun my/c-code-hook ()
@@ -53,14 +46,6 @@
   (interactive)
   (insert "    ")
 )
-
-(defun native-comp-available-p () nil)
-
-(defun create-blog-post ()
-    "Create a new blog post"
-    (interactive)
-    (let ((name (read-string "Filename: ")))
-    (expand-file-name (format "%s.org" name) "~/Dev/Web/barrolskii.github.io/org/blogs/")))
 
 ;; ===========================
 ;; Setq
@@ -86,10 +71,10 @@
  company-minimum-prefix-length 1
  )
 
-(setq org-capture-templates
-      '(("p" "Post" plain
-         (file create-blog-post)
-         (file "~/Dev/Templates/blogtemplate.org"))))
+;;(setq org-capture-templates
+;;      '(("p" "Post" plain
+;;         (file create-blog-post)
+;;         (file "~/Dev/Templates/blogtemplate.org"))))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -105,13 +90,20 @@
                             "If it took more than one shot, you weren't using a Jakobs."
                             "This is where the fun begins."
                             "Now THIS is pod racing!"
-                            "Todays Emacs sessions was sponsored by RAID: Shadow Legends"
+                            "Todays Emacs session was sponsored by RAID: Shadow Legends"
 ))
 
 (setq yas-snippet-dirs '("~/Dev/Templates/Snippets"))
 
-;; Org export html stuff
+(setq +file-templates-dir "/home/ash/Dev/Templates/FileTemplates/")
+(setq +file-templates-alist '(
+                              ;;(c-mode :trigger "main.c")
+                              ("main.c" :trigger "main.c")
+                              ))
 
+
+;; Org export html stuff
+;; TODO: Clean this up
 (setq org-html-content-class "content container"
       org-html-metadata-timestamp-format "%Y-%m-%d"
       org-html--pre/postamble-class nil
@@ -180,10 +172,6 @@
 
 </div>"))
       )
-
-;(setq org-html-htmlize-output-type 'inline-css
-;      org-html-head-include-default-style t
-;      )
 
 (setq org-publish-project-alist
       '(("barrolskii.github.io"
@@ -268,28 +256,14 @@
 ;; I know my config is sectioned out but I want Windows settings in their own
 ;; area. Windows bad
 
-;;(if (eq system-type 'windows-nt)
-;;
-;;    (progn
-;;        ;; Set the window to maximised because it is not by default on Windows
-;;        ;; We don't have this problem on Linux because tiling window
-;;        ;; managers set the scale of the window automatically
-;;        (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
-;;
-;;        ;; If we're on Windows set the default compile command to run a batch file
-;;        ;; I refuse to suffer with visual studio so I'll do everything myself
-;;        ;; Yes I am aware that batch is gross
-;;        (setq compile-command "nmake")
-;;
-;;        ;; Most of this doesn't seem to do anything??
-;;        ;; Bash in Windows seems to work so I might not need to set these
-;;        ;; The behaviour seems to work the same regardless if I set them or not
-;;        (setq explicit-shell-file-name "E:/Program Files/Git/bin/bash.exe")
-;;        (setq shell-file-name "bash")
-;;        (setq explicit-bash.exe-args '("--noediting" "--login" "-i" "-m"))
-;;        (setq shell-file-name "SHELL")
-;;    )
-;;)
+(if (eq system-type 'windows-nt)
+
+    (progn
+        ;; Make Emacs start up in full screen on Windows
+        (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+        (setq compile-command "nmake")
+    )
+)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
