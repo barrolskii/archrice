@@ -88,8 +88,8 @@
 (yas-global-mode t)
 
 
-ev/Templates/FileTemplates/")
-(setq auto-insert-directory "~/D(setq auto-insert-alist '(
+(setq auto-insert-directory "~/Dev/Templates/FileTemplates/")
+(setq auto-insert-alist '(
                           (("\\.h$") . [ "template.h" auto-insert-yas-expand auto-insert-set-insert-mode])
                           (("main\\.c$") . [ "main.c" auto-insert-yas-expand ])
                           (("makefile$") . [ "makefile" auto-insert-yas-expand])
@@ -113,6 +113,7 @@ ev/Templates/FileTemplates/")
       org-html-postamble nil
       org-html-preamble (get-file-as-string "~/Dev/Templates/FileTemplates/preamble.html")
       org-html-head-include-default-style nil
+      )
 
 
 (setq org-publish-project-alist
@@ -136,7 +137,6 @@ ev/Templates/FileTemplates/")
 
 
 ;; ===========================
-      )
 ;; Key mappings
 ;; ===========================
 
@@ -198,4 +198,3 @@ ev/Templates/FileTemplates/")
         (setq-default compile-command "nmake")
     )
 )
-
