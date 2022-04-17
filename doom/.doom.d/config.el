@@ -37,6 +37,17 @@
   (evil-insert (point))
 )
 
+(defun new-blog-post (name)
+  "Creates a new blog post in website repo"
+  (interactive "MEnter blog name: ")
+  (let ((blog-path (expand-file-name (concat name ".org")
+                                     "~/Dev/Web/barrolskii.github.io/org/blogs/")))
+
+    (switch-to-buffer(with-current-buffer (or (get-file-buffer blog-path)
+                             (find-file-noselect blog-path))))
+    (message "blog: %s" blog-path))
+)
+
 ;; ===========================
 ;; Setq / Variable Settings
 ;; ===========================
