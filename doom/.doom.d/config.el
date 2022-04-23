@@ -94,10 +94,13 @@
 
 
 (setq-default yas-snippet-dirs '("~/Dev/Templates/Snippets"))
-(setq yas-indent-line 'fixed)
 (setq-default yas--default-user-snippets-dir "~/Dev/Templates/Snippets")
+(setq yas-indent-line 'fixed)
 (yas-global-mode t)
 
+(setq +snippets-dir "~/Dev/Templates/Snippets")
+(setq doom-snippets-dir "~/Dev/Templates/Snippets")
+(setq +file-templates-dir "~/Dev/Templates/Snippets")
 
 (setq auto-insert-directory "~/Dev/Templates/FileTemplates/")
 (setq auto-insert-alist '(
