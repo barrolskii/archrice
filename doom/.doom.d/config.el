@@ -54,6 +54,19 @@
     (shell-command  (concat "funcdefine " (buffer-file-name)) nil)
 )
 
+;; There seems to be an issue with ws-butler not respecting the require-final-newline
+;; variable. This function will ensure that when the require-final-newline variable
+;; evaluates to t then we will get a final newline
+(defun ensure-final-newline ()
+  (interactive)
+  (when (eq require-final-newline t)
+    (let ((curr-point (point)))
+      (goto-char (point-max))
+      (insert "\n")
+      (goto-char curr-point)))
+)
+
+
 ;; ===========================
 ;; Setq / Variable Settings
 ;; ===========================
@@ -155,6 +168,10 @@
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'c-mode-common-hook 'my/c-code-hook)
 
+;; Need to add t t at the end for setting buffer local before-save-hook
+;; otherwise adding the function to the hook won't work
+(add-hook 'before-save-hook 'ensure-final-newline t t)
+
 
 ;; ===========================
 ;; Key mappings
@@ -223,3 +240,4 @@
         (setq-default compile-command "nmake")
     )
 )
+
