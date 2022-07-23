@@ -51,7 +51,7 @@
 (defun implement-header ()
     "Creates a C source file with empty definitions of headers from given header file"
     (interactive)
-    (shell-command  (concat "funcdefine " (buffer-file-name)) nil)
+    (shell-command  (concat "funcdefine " (file-name-nondirectory (buffer-file-name))) nil)
 )
 
 ;; There seems to be an issue with ws-butler not respecting the require-final-newline
@@ -168,9 +168,12 @@
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'c-mode-common-hook 'my/c-code-hook)
 
-;; Need to add t t at the end for setting buffer local before-save-hook
-;; otherwise adding the function to the hook won't work
-(add-hook 'before-save-hook 'ensure-final-newline t t)
+;; Before save hook is buffer local so add it to specified buffers
+;; I don't want every mode to end with a blank newline so they'll
+;; just be added here
+(add-hook 'c-mode-hook
+  ;; 100 here ensures that the function is added to the end of the hook list
+  (lambda () (add-hook 'before-save-hook 'ensure-final-newline 100 t)))
 
 
 ;; ===========================
@@ -221,7 +224,7 @@
 (map!
  :desc "Implement header file"
  :leader
- :n "d h" #'implement-header
+ :n "i h" #'implement-header
  )
 
 ;; ===========================
@@ -240,4 +243,3 @@
         (setq-default compile-command "nmake")
     )
 )
-
