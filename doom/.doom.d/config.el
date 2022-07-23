@@ -48,6 +48,12 @@
     (message "blog: %s" blog-path))
 )
 
+(defun implement-header ()
+    "Creates a C source file with empty definitions of headers from given header file"
+    (interactive)
+    (shell-command  (concat "funcdefine " (buffer-file-name)) nil)
+)
+
 ;; ===========================
 ;; Setq / Variable Settings
 ;; ===========================
@@ -195,6 +201,11 @@
  :n "\"" #'sp-wrap-double-quotes
  )
 
+(map!
+ :desc "Implement header file"
+ :leader
+ :n "d h" #'implement-header
+ )
 
 ;; ===========================
 ;; The bad corner
