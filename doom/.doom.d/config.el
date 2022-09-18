@@ -171,9 +171,9 @@
 ;; Before save hook is buffer local so add it to specified buffers
 ;; I don't want every mode to end with a blank newline so they'll
 ;; just be added here
-(add-hook 'c-mode-hook
+;;(add-hook 'c-mode-hook
   ;; 100 here ensures that the function is added to the end of the hook list
-  (lambda () (add-hook 'before-save-hook 'ensure-final-newline 100 t)))
+  ;;(lambda () (add-hook 'before-save-hook 'ensure-final-newline 100 t)))
 
 
 ;; ===========================
