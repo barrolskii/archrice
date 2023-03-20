@@ -43,6 +43,16 @@ export PATH="$PATH:/usr/local/go/bin"
 # Set bash to edit in vi mode
 set -o vi
 
+set bell-style none
+
+set colored-stats on
+set colored-completion-prefix on
+
+# Map case treats the '-' character like '_' and vice versa
+# but we need ignore case to be on for this to work
+set completion-ignore-case on
+set completion-map-case on 
+
 cmkdir()
 {
 	[ -z "$1" ] && echo "cmkdir: missing operand" && return
