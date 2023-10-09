@@ -50,177 +50,7 @@
     (message "blog: %s" blog-path))
 )
 
-(defun get-blog-info (filename)
-  "Returns a list containing the title, date, and description of a html blog post"
-  (let
-    (blog-title
-     blog-date
-     blog-desc
-     blog-desc-start
-     blog-desc-end)
-    (with-temp-buffer
-      (html-mode)
-      (insert-file-contents filename)
-
-      ;; Move to the first header
-      (search-forward "<h2")
-      (setq blog-title (apply 'buffer-substring-no-properties (cl-subseq (evil-inner-tag) 0 2)))
-
-      ;; Now get the date of the post
-      (re-search-forward "[A-Z]+ [0-9]+, [0-9]+")
-      (setq blog-date (buffer-substring-no-properties (match-beginning 0) (point)))
-
-      ;; And finally the description
-      (search-forward "<p>")
-      (evil-forward-word-begin)
-
-      (setq blog-desc-start (point))
-      (evil-forward-paragraph)
-      (evil-backward-word-begin)
-
-      (setq blog-desc-end (point))
-      (setq blog-desc (buffer-substring blog-desc-start blog-desc-end))
-    )
-
-    (list blog-title blog-date blog-desc)
-  )
-)
-
-(defun add-blog-to-index (filename)
-  "Adds a blog post to the blog index page"
-  (interactive "FEnter file name: ")
-  (require 'ox-publish)
-  (let
-      (blog-html-blob
-       blog-title
-       blog-date
-       (index-page "~/Dev/Web/barrolskii.github.io/org/blogindex.org")
-       )
-
-    (with-temp-buffer
-      (insert-file-contents filename)
-
-        ;; Move to the first header
-        (search-forward "*")
-        (evil-forward-word-begin)
-        (setq blog-title (buffer-substring-no-properties (point) (point-at-eol)))
-
-        ;; Now get the date of the post
-        (re-search-forward "[A-Z]+ [0-9]+, [0-9]+")
-        (setq blog-date (buffer-substring-no-properties (match-beginning 0) (point)))
-
-        ;; There's a better way to do this right? RIGHT??
-        (setq blog-html-blob (concat
-                               "\n  <li>\n"
-                               "    <span class=\"list__title--small\">\n"
-                               "      <a href=\"./blogs/"
-                               (file-name-base filename)
-                               ".html\">"
-                               blog-title
-                               "</a>\n"
-                               "      <time class=\"pull-right hidden-tablet\">"
-                               blog-date
-                               "</time>\n"
-                               "    </span>\n"
-                               "  </li>\n"))
-      )
-
-    (with-temp-buffer
-      (insert-file-contents index-page)
-      (search-forward "<ul class=\"posts\">")
-      (insert blog-html-blob)
-      (write-file index-page)
-      (org-publish-file index-page)
-      )
-  )
-)
-
-(defun update-home-page ()
-  "Updates the home page to include the 5 most recent blog posts"
-  (interactive)
-  (require 'ox-publish)
-
-  (let
-    (curr-blog-date
-     curr-blog-file
-     blog-info
-     blog-list
-     (index-page-buffer (find-file-noselect "~/Dev/Web/barrolskii.github.io/org/index.org"))
-     (index-page-path "~/Dev/Web/barrolskii.github.io/org/index.org"))
-
-    (with-temp-buffer
-      ;; We want to exclude the '.' and '..' files that directory-files includes
-      (dolist (item (directory-files "~/Dev/Web/barrolskii.github.io/blogs" 't "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)"))
-        (with-temp-buffer
-          (insert-file-contents item)
-          (re-search-forward "[A-Z]+ [0-9]+, [0-9]+")
-          (setq curr-blog-date (buffer-substring-no-properties (match-beginning 0) (point)))
-        )
-        (insert (concat curr-blog-date " " item "\n"))
-       )
-
-      ;; Sort the files by date and then cut the date
-      (shell-command-on-region (point-min) (point-max) "sort -k3nr -k2nr -k1M | cut -d' ' -f4" (current-buffer))
-
-      ;; Move back to the start of the buffer
-      (setq blog-list (split-string (buffer-string) "\n"))
-    )
-
-    (switch-to-buffer index-page-buffer)
-    (goto-char 0)
-
-    ;; I only want the 5 most recent blog posts to be on the home page
-    ;; _i means the variable is unused. The underscore lets the compiler know
-    (dotimes (i 5)
-      (setq curr-blog-file (nth i blog-list))
-      (setq blog-info
-        (get-blog-info curr-blog-file))
-
-      ;; Update the first anchor
-      (re-search-forward "\.html\">")
-      (goto-char (match-beginning 0))
-      (evil-delete-backward-word)
-      (insert (file-name-sans-extension (file-name-nondirectory curr-blog-file)))
-
-      ;; Insert the blog title
-      (apply 'evil-delete (evil-inner-tag))
-      (insert (nth 0 blog-info))
-
-      ;; Update the date
-      (search-forward "item__date")
-      (apply 'evil-delete (evil-inner-tag))
-      (insert (nth 1 blog-info))
-
-      ;; Update the post description
-      (search-forward "<span>")
-      (apply 'evil-delete (evil-inner-tag))
-      ;; TODO: Magic number here for now. Add a nice way to have full words but
-      ;;       also truncate after a certain length
-      (if (< (length(nth 2 blog-info)) 368)
-          (insert (concat (string-replace "\n" " " (nth 2 blog-info)) "..."))
-
-        ;; Else
-        (insert (concat (substring (string-replace "\n" " " (nth 2 blog-info)) 0 368) "..."))
-        )
-
-      ;; Update the second anchor
-      (re-search-forward "\.html\"")
-      (goto-char (match-beginning 0))
-      (evil-delete-backward-word)
-      (insert (file-name-sans-extension (file-name-nondirectory curr-blog-file)))
-     )
-
-    (save-buffer)
-    (org-publish-file index-page-path)
-  )
-)
-
-(defun implement-header ()
-    "Creates a C source file with empty definitions of headers from given header file"
-    (interactive)
-    (shell-command  (concat "funcdefine " (file-name-nondirectory (buffer-file-name))) nil)
-)
-
+;; TODO: There's an answer to this on the doom emacs github page. This is desired behaviour of ws-butler
 ;; There seems to be an issue with ws-butler not respecting the require-final-newline
 ;; variable. This function will ensure that when the require-final-newline variable
 ;; evaluates to t then we will get a final newline
@@ -302,30 +132,59 @@
 (setq evil-want-Y-yank-to-eol t)
 
 
-
-;; Org export html stuff
-(setq org-html-content-class "content container"
-      org-html-metadata-timestamp-format "%Y-%m-%d"
-      org-html--pre/postamble-class nil
-      org-html-divs '((preamble "div" "")
-                      (content "div")
-                      (postamble "div" "postamble"))
-      org-html-postamble nil
-      org-html-preamble (get-file-as-string "~/Dev/Templates/FileTemplates/preamble.html")
-      org-html-head-include-default-style nil
-      )
+;; Org export settings
+(setq
+ org-export-with-sub-superscripts nil
+ make-backup-files nil
+ org-html-content-class "content container"
+ org-html-metadata-timestamp-format "%Y-%m-%d"
+ org-html--pre/postamble-class nil
+ org-html-divs '((preamble "div" "")
+                 (content "div")
+                 (postamble "div" "postamble"))
+ org-html-postamble nil
+ org-html-preamble (get-file-as-string "~/Dev/Web/barrolskii.github.io/assets/preamble.html")
+ org-html-validation-link nil
+ org-html-head-include-default-style nil
+ org-html-head-include-scripts nil
+ org-html-htmlize-output-type 'inline-css
+ org-html-head "<link rel=\"stylesheet\" href=\"/css/hydehyde.css\"/><link rel=\"stylesheet\" href=\"/css/codestyle.css\"/><script type=\"text/JavaScript\" src=\"/js/mode.js\"></script><script type=\"text/JavaScript\" src=\"/js/magnify.js\"></script>")
 
 
 (setq org-publish-project-alist
-      '(("barrolskii.github.io"
-         :base-directory "~/Dev/Web/barrolskii.github.io/org"
-         :publishing-directory "~/Dev/Web/barrolskii.github.io"
+      (list
+       '("Portfolio:content"
+             :recursive nil
+             :base-directory "~/Dev/Web/barrolskii.github.io/org"
+             :base-extension "org"
+             :publishing-function org-html-publish-to-html
+             :publishing-directory "~/Dev/Web/barrolskii.github.io/public"
+             :with-author nil
+             :with-creator nil
+             :with-toc nil
+             :with-title nil
+             :section-numbers nil
+             :time-stamp-file nil)
+       '("Portfolio:blogs"
+         :recursive nil
+         :base-directory "~/Dev/Web/barrolskii.github.io/org/blogs"
          :base-extension "org"
-         :recursive t
-         :with-title nil
+         :publishing-directory "~/Dev/Web/barrolskii.github.io/public/blogs"
          :publishing-function org-html-publish-to-html
-         )
-))
+         :with-author t
+         :with-creator nil
+         :with-toc nil
+         :with-title nil
+         :section-numbers nil
+         :time-stamp-file nil)
+       '("Portfolio:assets"
+         :recursive t
+         :base-directory "~/Dev/Web/barrolskii.github.io/assets"
+         :base-extension "css\\|js\\|png\\|webp\\|svg"
+         :publishing-directory "~/Dev/Web/barrolskii.github.io/public"
+         :publishing-function org-publish-attachment)))
+
+
 
 
 ;; ===========================
@@ -408,5 +267,6 @@
         ;; Set the window to maximised because it is not by default on Windows
         (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
         (setq-default compile-command "nmake")
+        (setq org-babel-C-compiler "clang -std=c89")
     )
 )
