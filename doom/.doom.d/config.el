@@ -39,31 +39,6 @@
   (evil-insert (point))
 )
 
-(defun new-blog-post (name)
-  "Creates a new blog post in website repo"
-  (interactive "MEnter blog name: ")
-  (let ((blog-path (expand-file-name (concat name ".org")
-                                     "~/Dev/Web/barrolskii.github.io/org/blogs/")))
-
-    (switch-to-buffer(with-current-buffer (or (get-file-buffer blog-path)
-                             (find-file-noselect blog-path))))
-    (message "blog: %s" blog-path))
-)
-
-;; TODO: There's an answer to this on the doom emacs github page. This is desired behaviour of ws-butler
-;; There seems to be an issue with ws-butler not respecting the require-final-newline
-;; variable. This function will ensure that when the require-final-newline variable
-;; evaluates to t then we will get a final newline
-(defun ensure-final-newline ()
-  (interactive)
-  (when (eq require-final-newline t)
-    (let ((curr-point (point)))
-      (goto-char (point-max))
-      (insert "\n")
-      (goto-char curr-point)))
-)
-
-
 ;; ===========================
 ;; Setq / Variable Settings
 ;; ===========================
@@ -131,76 +106,12 @@
 
 (setq evil-want-Y-yank-to-eol t)
 
-
-;; Org export settings
-(setq
- org-export-with-sub-superscripts nil
- make-backup-files nil
- org-html-content-class "content container"
- org-html-metadata-timestamp-format "%Y-%m-%d"
- org-html--pre/postamble-class nil
- org-html-divs '((preamble "div" "")
-                 (content "div")
-                 (postamble "div" "postamble"))
- org-html-postamble nil
- org-html-preamble (get-file-as-string "~/Dev/Web/barrolskii.github.io/assets/preamble.html")
- org-html-validation-link nil
- org-html-head-include-default-style nil
- org-html-head-include-scripts nil
- org-html-htmlize-output-type 'inline-css
- org-html-head "<link rel=\"stylesheet\" href=\"/css/hydehyde.css\"/><link rel=\"stylesheet\" href=\"/css/codestyle.css\"/><script type=\"text/JavaScript\" src=\"/js/mode.js\"></script><script type=\"text/JavaScript\" src=\"/js/magnify.js\"></script>")
-
-
-(setq org-publish-project-alist
-      (list
-       '("Portfolio:content"
-             :recursive nil
-             :base-directory "~/Dev/Web/barrolskii.github.io/org"
-             :base-extension "org"
-             :publishing-function org-html-publish-to-html
-             :publishing-directory "~/Dev/Web/barrolskii.github.io/public"
-             :with-author nil
-             :with-creator nil
-             :with-toc nil
-             :with-title nil
-             :section-numbers nil
-             :time-stamp-file nil)
-       '("Portfolio:blogs"
-         :recursive nil
-         :base-directory "~/Dev/Web/barrolskii.github.io/org/blogs"
-         :base-extension "org"
-         :publishing-directory "~/Dev/Web/barrolskii.github.io/public/blogs"
-         :publishing-function org-html-publish-to-html
-         :with-author t
-         :with-creator nil
-         :with-toc nil
-         :with-title nil
-         :section-numbers nil
-         :time-stamp-file nil)
-       '("Portfolio:assets"
-         :recursive t
-         :base-directory "~/Dev/Web/barrolskii.github.io/assets"
-         :base-extension "css\\|js\\|png\\|webp\\|svg"
-         :publishing-directory "~/Dev/Web/barrolskii.github.io/public"
-         :publishing-function org-publish-attachment)))
-
-
-
-
 ;; ===========================
 ;; Hooks
 ;; ===========================
 
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'c-mode-common-hook 'my/c-code-hook)
-
-;; Before save hook is buffer local so add it to specified buffers
-;; I don't want every mode to end with a blank newline so they'll
-;; just be added here
-;;(add-hook 'c-mode-hook
-  ;; 100 here ensures that the function is added to the end of the hook list
-  ;;(lambda () (add-hook 'before-save-hook 'ensure-final-newline 100 t)))
-
 
 ;; ===========================
 ;; Key mappings
